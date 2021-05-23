@@ -1,67 +1,41 @@
-import * as React from 'react';
-import { Text, View, Button, Animated, StyleSheet} from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import Circuit2 from './components/Circuit2'
-import Feed from './components/feed'
-import Counter from './components/Counter'
+import { StatusBar } from 'expo-status-bar';
+import React from 'react';
+import { StyleSheet, Text, View } from 'react-native';
 
+import {NavigationContainer} from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
 
-const Tab = createMaterialBottomTabNavigator();
-
-
-function MyTabs() {
-  return (
-    <Tab.Navigator
-      initialRouteName="Feed"
-      activeColor="#ffffff"
-      barStyle= {{ backgroundColor: '#2D2283' }}
-      labelStyle={{ fontSize: 12 }}
-      style={{ backgroundColor: '#2D2283' }}
-    >
-      <Tab.Screen
-        name="Feed"
-        component={Feed}
-        options={{
-          tabBarLabel: 'Discovery page',
-          tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="earth" color={color} size={23} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Create"
-        component={Circuit2}
-        options={{
-          tabBarLabel: 'New Workout',
-          tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="plus-circle" color={color} size={23} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Profile"
-        component={Counter}
-        options={{
-          tabBarLabel: 'My workouts',
-          tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="account" color={color} size={23} />
-          ),
-        }}
-      />
-    </Tab.Navigator>
-  );
-}
-
-
-
+import Login from './components/Login';
+import SignUp from './components/SignUp';
+import MyTabs from './components/Mytabs';
 
 export default function App() {
+  const Stack = createStackNavigator()
   return (
     <NavigationContainer>
-      <MyTabs />
+      <Stack.Navigator screenOptions={{
+        headerShown: false
+      }}>
+        <Stack.Screen name="Login" component={Login}/>
+        <Stack.Screen name="SignUp" component={SignUp}/>
+        <Stack.Screen name="Mytabs" component={MyTabs}/>
+      </Stack.Navigator>
     </NavigationContainer>
   );
 }
 
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  btnContainer: {
+    position: 'absolute',
+    top: 50
+  },
+  text: {
+    color: 'green'
+  }
+});
