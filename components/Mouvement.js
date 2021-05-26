@@ -28,7 +28,7 @@ class Mouvement extends Component {
      
       return (
         <View style = {styles.container}>
-         <Text style ={styles.Mouvement}> Mouvement </Text>
+         <Text style ={styles.Mouvement}> Mouvement {this.props.index + 1} </Text>
 
           <View style= {styles.Mouvement_name}>
             <Text style={styles.title2}>Mouvement name: </Text>
