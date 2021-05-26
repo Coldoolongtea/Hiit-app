@@ -30,13 +30,13 @@ routes.post('/api/login', LoginController.store)
 
 //Dashboard
 routes.get('/api/dashboard/:sport', verifyToken, DashboardController.getAllEvents)
-routes.get('/api/dashboard', verifyToken, DashboardController.getAllEvents)
+routes.get('/api/dashboard', DashboardController.getAllEvents)
 routes.get('/api/user/events', verifyToken, DashboardController.getEventsByUserId)
 routes.get('/api/event/:eventId', verifyToken, DashboardController.getEventById)
 
 //Events 
 // routes.post('/api/event', verifyToken, uploadToS3.single('thumbnail'), EventController.createEvent) removes s3 support
-routes.post('/api/event', verifyToken, upload.single('thumbnail'), EventController.createEvent)
+routes.post('/api/event', EventController.createEvent)
 routes.delete('/api/event/:eventId', verifyToken, EventController.delete)
 
 //User

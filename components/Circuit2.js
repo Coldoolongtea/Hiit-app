@@ -18,9 +18,36 @@ class Circuit2 extends Component {
       this.setState({ Number_of_moves: m })
    }
     
-   submit =() => {
-      console.log('Workout_name: ' + this.state.Workout_name + ' a été crée avec succès')
-   }
+   submit = async () => {
+      // console.log('Workout_name: ' + this.state.Workout_name + ' a été crée avec succès')
+      const Workout_name = this.state.Workout_name
+      const Number_of_moves = this.state.Number_of_moves
+      
+      try {
+         const response = await fetch('http://192.168.0.4:8080/api/event', {
+             method: "POST",
+             body: JSON.stringify({ Workout_name, Number_of_moves, mouvements : this.mouvements}),
+             headers: {'Content-Type': 'application/json'}
+         })
+
+         const responseJson = await response.json()
+
+         
+
+
+         console.log('🚀 ----------------------------------------------------------------------------')
+         console.log('🚀 ~ file: Register.js ~ line 24 ~ submit ~ responseJson', responseJson)
+         console.log('🚀 ----------------------------------------------------------------------------')
+   
+       } catch (error) {
+         console.log('🚀 --------------------------------------------------------------')
+         console.log('🚀 ~ file: Register.js ~ line 19 ~ submit ~ error', error)
+         console.log('🚀 --------------------------------------------------------------')
+   
+       }
+ }
+
+   
 
    handleCallback = (childData,index) =>{
      
