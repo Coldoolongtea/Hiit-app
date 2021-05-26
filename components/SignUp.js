@@ -13,7 +13,7 @@ const SignUp = ({navigation}) => {
         console.log(firstName, lastName, email, password)
 
         try {
-            const response = await fetch('http://192.168.0.29:8080/api/user/register', {
+            const response = await fetch('http://192.168.0.4:8080/api/user/register', {
                 method: "POST",
                 body: JSON.stringify({firstName, lastName, email, password}),
                 headers: {'Content-Type': 'application/json'}

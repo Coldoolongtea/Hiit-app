@@ -6,37 +6,51 @@ class Circuit2 extends Component {
    state = {
       Workout_name: '',
       Number_of_moves: '',
-      Number_of_sets: '',
-         
+     
    }
-
+ mouvements = [];
  handleWorkout_name = (text) => {
+   console.log(text)
       this.setState({ Workout_name: text })
+      
    }
    handleNumber_of_moves = (m) => {
       this.setState({ Number_of_moves: m })
    }
-    handleNumber_of_sets = (text) => {
-      this.setState({ Number_of_sets: text })
-   }
-   submit = (Workout_name) => {
-      alert('Workout_name: ' + Workout_name + ' a été crée avec succès')
+    
+   submit =() => {
+      console.log('Workout_name: ' + this.state.Workout_name + ' a été crée avec succès')
    }
 
+   handleCallback = (childData,index) =>{
+     
+     
+      this.mouvements[index]=childData
+     console.log(this.mouvements)
+     
+    
+  }
+  
+
+ 
+
+
      render() {
+
+      const {data} = this.state;
        // on va créer un tableau de mouvements
      var Mouvements = [];
      	for(let i = 0; i < this.state.Number_of_moves; i++){
 
 		Mouvements.push(
 			<View key = {i}>
-				<Mouvement/>
+				<Mouvement handleCallback={this.handleCallback} index={i}/>
         </View>
 		)}
 	
       return (
-         <ScrollView>
-        <View style = {styles.container} id ="root">
+         <ScrollView style = {styles.container} >
+        <View nativeID ="root">
           <Text style ={styles.title}> New HIIT Circuit </Text>
 
           <View style= {styles.Workout_name}>
@@ -57,30 +71,22 @@ class Circuit2 extends Component {
                   onChangeText = {this.handleNumber_of_moves}/>
             </View>
 
-            <View style= {styles.Number_of_sets}>
-             <Text style={styles.title2}>Number of sets: </Text>
-              <TextInput type="Text" style = {styles.input_number}
-                underlineColorAndroid = "transparent"
-                placeholder = "Number "
-                autoCapitalize = "none"
-               
-                onChangeText = {this.handleNumber_of_sets}/>
-
-           </View>
           
          
-          {Mouvements.map(function(m, i) {
+          {/* {Mouvements.map(function(m, i) {
       return <Text key={'Mouvement-' + i} style={styles.mouv_nbr} >
           {m}{i+1}
           
           
           </Text>
-})}
+})} */}
+
+         {Mouvements}
 
 
             
     
-            <Button title="valider" tyle = {styles.submitButton} onPress ={this.Submit} />
+            <Button title="valider" style = {styles.submitButton} onPress ={this.submit} />
             
            
 
@@ -95,7 +101,7 @@ const styles = StyleSheet.create({
   title:{
     fontSize:22,
     marginBottom:10,
-    marginTop:25,
+    marginTop:45,
     color: '#193F92',
     
   },
@@ -103,8 +109,8 @@ const styles = StyleSheet.create({
    container: {
       paddingTop: 23,
       backgroundColor: '#09264B',
-      justifyContent: 'center',
-      marginTop: 50,
+      // justifyContent: 'center',
+     
        padding: 20,
     
    },
@@ -120,10 +126,12 @@ const styles = StyleSheet.create({
     borderColor:'#19928F'
    },
    Number_of_moves :{
-    display: "flex"
+   //  display: "inline"
+   display: 'flex'
    },
     Number_of_sets :{
-    display: "flex",
+   //  display: "inline"
+   display: 'flex',
    },
    input_name: {
       marginTop: 15,
@@ -164,7 +172,8 @@ const styles = StyleSheet.create({
       textAlign:'center',
    },
    mouv_nbr:{
-     display: "flex",
+   //   display: "inline"
+   display: 'flex',
    }
   
 })

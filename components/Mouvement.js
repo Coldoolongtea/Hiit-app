@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, TouchableOpacity, TextInput, StyleSheet,Form,Label } from 'react-native'
+import { View, Text, TouchableOpacity, TextInput, StyleSheet,Form,Label, } from 'react-native'
 
 class Mouvement extends Component {
    state = {
@@ -7,6 +7,9 @@ class Mouvement extends Component {
       Duration: '',
       Rest_Duration: '',
    }
+
+   
+
    handleMouvement_name = (text) => {
       this.setState({ Mouvement_name: text })
    }
@@ -16,9 +19,11 @@ class Mouvement extends Component {
     handleRest_Duration = (integer) => {
       this.setState({ Rest_Duration: integer })
    }
-  /* submit = (Mouvement_name) => {
-      alert('Workout_name: ' + Workout_name+ 'a été crée avec succès')
-   }*/
+   componentDidUpdate = () => {
+      
+      this.props.handleCallback(this.state,this.props.index);
+   }
+  
    render() {
      
       return (
@@ -32,7 +37,10 @@ class Mouvement extends Component {
                 placeholder = "name"
                /* placeholderTextColor = "#9a73ef"*/
                 autoCapitalize = "none"
-                onChangeText = {this.handleMouvement_name}/>
+                onChangeText = {this.handleMouvement_name}
+                
+                />
+
             </View>
 
             <View style= {styles.Duration}>
@@ -55,7 +63,7 @@ class Mouvement extends Component {
                 onChangeText = {this.handleRest_Duration}/>
             </View>
 
-             
+            
         </View>
       )
    }
