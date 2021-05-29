@@ -6,6 +6,7 @@ class Mouvement extends Component {
       Mouvement_name: '',
       Duration: '',
       Rest_Duration: '',
+      index:this.props.index
    }
 
    
