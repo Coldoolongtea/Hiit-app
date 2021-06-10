@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { View, Text, TouchableOpacity, TextInput, StyleSheet,Form,Label, Icon,Button,ScrollView} from 'react-native'
 import Mouvement from './Mouvement'
+import ActionButton from 'react-native-action-button'
 
 class Circuit2 extends Component {
    state = {

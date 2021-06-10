@@ -30,16 +30,7 @@ function MyTabs() {
           ),
         }}
       />
-      <Tab.Screen
-        name="Create"
-        component={Circuit2}
-        options={{
-          tabBarLabel: 'New Workout',
-          tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="plus-circle" color={color} size={23} />
-          ),
-        }}
-      />
+
       <Tab.Screen
         name="Profile"
         component={Counter}
@@ -47,6 +38,16 @@ function MyTabs() {
           tabBarLabel: 'My workouts',
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons name="account" color={color} size={23} />
+          ),
+        }}
+      />
+            <Tab.Screen
+        name="Create"
+        component={Circuit2}
+        options={{
+          tabBarLabel: 'My Profile',
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons name="plus-circle" color={color} size={23} />
           ),
         }}
       />

@@ -1,12 +1,19 @@
-import React, { Component, useState } from 'react'
-import Constants from 'expo-constants';
-import { View, Text, TouchableOpacity, StyleSheet, ImageBackground, SafeAreaView, FlatList, Image } from 'react-native';
+import React, { Component, useState, useEffect } from 'react'
+import Constants from 'expo-constants'
+import { View, Text, TouchableOpacity, StyleSheet, ImageBackground, SafeAreaView, FlatList, Image } from 'react-native'
+import isLoggedIn from '../hooks/isLoggedIn'
+import ActionButton from 'react-native-action-button'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import {FontAwesome5, MaterialCommunityIcons, Ionicons} from '@expo/vector-icons'
+import ModalComponent from '../components/ModalComponent'
+import { Modal } from 'react-native-paper'
+const bgImage = require('../assets/background.jpg');
 
-
-const bgImage = require('../assets/background.jpg')
 
 
 const Feed = ({ navigation }) => {
+  const [user, user_id] = isLoggedIn({navigation})
+  const [modalIsVisible, setModalIsVisible] = useState(false)
   const [events, setEvents] = useState([{
     _id: 'idblah',
     title: 'ABS workout 15 mins',
@@ -33,8 +40,20 @@ const Feed = ({ navigation }) => {
     description: "Bla bla bla",
     duration: "15",
     thumbnail_url: 'https://i.ibb.co/ScQPjfQ/pexels-anush-gorak-1229356.jpg'
-  },
-])
+  }])
+
+
+  const logoutHandler = async () => {
+    await AsyncStorage.removeItem('user');
+    await AsyncStorage.removeItem('user_id');
+    navigation.navigate('Login')
+  }
+
+
+  useEffect(() => {
+
+    console.log('User and User Id', user, user_id)
+  },[])
 
   return (
   <SafeAreaView style={styles.container}>
@@ -72,7 +91,24 @@ const Feed = ({ navigation }) => {
         }}>
 
       </FlatList>
+      
+      <ModalComponent isVisible = {modalIsVisible} setIsVisible = {setModalIsVisible} user={user}></ModalComponent>
+
+
+      {modalIsVisible? <Text> Is Visivle</Text> : null}
+
+      <TouchableOpacity onPress={logoutHandler}>
+        <Text>Logout</Text>
+      </TouchableOpacity>
       </ImageBackground>
+
+      <ActionButton buttonColor="#fff" offsetX={0} offsetY={0}>
+        <ActionButton.Item title='Add workout' onPress={() => setModalIsVisible(true)}>
+          <Ionicons name="ios-add" style={styles.actionbutton}/>
+        </ActionButton.Item>
+      </ActionButton>
+
+      
     </View>
   </SafeAreaView>
   )
@@ -146,6 +182,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 4,
     marginTop: 20
+  },
+  actionbutton: {
+    fontSize: 20,
+    height: 22,
+    color: '#000'
   },
 })
 
