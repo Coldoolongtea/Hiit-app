@@ -39,7 +39,7 @@ class Circuit2 extends Component {
       const description = this.state.description
       
       try {
-         const response = await fetch('http://192.168.1.51:8080/api/event', {
+         const response = await fetch('http://192.168.1.44:8080/api/event', {
              method: "POST",
              body: JSON.stringify({ title: Workout_name, nbrMoves: Number_of_moves, description: description, mouvements : this.mouvements }),
              headers: {'Content-Type': 'application/json', 'user': this.state.user}

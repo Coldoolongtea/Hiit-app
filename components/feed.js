@@ -28,7 +28,7 @@ const Feed = ({ navigation }) => {
     })
   }
   const fetchDashboard = async () => {
-    const rawData = await fetch('http://192.168.1.51:8080/api/dashboard', {
+    const rawData = await fetch('http://192.168.1.44:8080/api/dashboard', {
       headers: {
         'user': user
       }
@@ -61,7 +61,7 @@ const Feed = ({ navigation }) => {
   }
 
   const toggleFavorite = async (item) => {
-    await fetch('http://192.168.1.51:8080/api/event/toggleFavorite', {
+    await fetch('http://192.168.1.44:8080/api/event/toggleFavorite', {
       method: 'POST',
       headers: {
         'user': user,

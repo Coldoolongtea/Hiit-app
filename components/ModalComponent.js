@@ -51,7 +51,7 @@ const ModalComponent = ({ isVisible, setIsVisible, user, loadEvents }) => {
 
 
     try {
-      await fetch(`http://192.168.1.51:8080/api/event`, {
+      await fetch(`http://192.168.1.44:8080/api/event`, {
         method: 'POST',
         body: data,
         headers: { user: user }
