@@ -11,13 +11,14 @@ const Login = ({navigation}) => {
     const [password, setPassword] = useState(null)
 
     useEffect(() => {
+        console.log("LOGIN VUE: \t", user, user_id)
         if(user !== null && user_id !== null) navigation.navigate('Mytabs')
     })
-      
+    
     const submitHandler = async () => {
         
         try {
-            const response = await fetch('http://localhost:8080/api/login', {
+            const response = await fetch('http://192.168.1.51:8080/api/login', {
                 method: "POST",
                 body: JSON.stringify({email, password}),
                 headers: {'Content-Type': 'application/json'}

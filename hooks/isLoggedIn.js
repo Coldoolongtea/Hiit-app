@@ -3,6 +3,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const isLoggedIn = () => {
 
+    console.trace("isLoggedIn ...")
+
     const [user, setUser] = useState(null)
     const [user_id, setUserId] = useState(null)
 

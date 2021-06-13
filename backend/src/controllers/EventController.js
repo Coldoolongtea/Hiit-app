@@ -41,40 +41,39 @@ module.exports = {
 
 	// },
 	async createEvent(req, res) {
-		// jwt.verify(req.token, 'secret', async (err, authData) => {
-		// 	if (err) {
-		// 		res.statusCode(401)
-		// 	} else {
-				const { Workout_name, Number_of_moves, mouvements} = req.body
-				// const { filename } = req.file
-
-				// try {
-				// 	const user = await User.findById(authData.user._id)
-
-				// 	if (!user) {
-				// 		return res.status(400).json({ message: 'User does not exist!' })
-				// 	}
+		jwt.verify(req.token, 'secret', async (err, authData) => {
+			if (err) {
+				res.statusCode(401)
+			} else {
+				const { title , nbrMoves, description, mouvements} = req.body
+				try {
+					const user = await User.findById(authData.user._id)
+					if (!user) {
+						return res.status(400).json({ message: 'User does not exist!' })
+					}
 
 					const event = await Event.create({
-						Workout_name,
-						Number_of_moves: parseInt(Number_of_moves),
+						title,
+						nbrMoves: parseInt(nbrMoves),
 						mouvements,						
-						//user: authData.user._id
-						
-						user:"60aa18e7da9d3e0c5cee6ae9"
-						
+						description,
+						user: authData.user._id
 					})
 					console.log('🚀 ------------------------------------------------------------------')
 					console.log('🚀 ~ file: EventController.js ~ line 67 ~ jwt.verify ~ event', event)
 					console.log('🚀 ------------------------------------------------------------------')
 
+					console.log(user, event)
+					user.savedWorkouts.push(event.id)
+					await user.save()
+
 					return res.json(event)
-				// } catch (error) {
-				// 	console.log(error)
-				// 	return res.status(400).json({ message: error })
-				// }
-		// 	 }
-		//  })
+				} catch (error) {
+					console.log(error)
+					return res.status(400).json({ message: error })
+				}
+			}
+		})
 	},
 
 	delete(req, res) {
@@ -89,6 +88,30 @@ module.exports = {
 
 				} catch (error) {
 					return res.status(400).json({ message: 'We do have any event with the ID' })
+				}
+			}
+		})
+	},
+
+	async addToFavorite(req, res) {
+		jwt.verify(req.token, 'secret', async (err, authData) => {
+			if (err) {
+				res.statusCode(401)
+			} else {
+				try {
+					const event = req.body.event
+					const user = await User.findById(authData.user._id)
+					if (!user) return res.status(400).json({ message: 'User does not exist!' })
+
+					console.log(user.savedWorkouts, event)
+					const index = user.savedWorkouts.findIndex(wks => wks === event._id)
+					console.log(index)
+					if (index >= 0) { user.savedWorkouts.splice(index, 1); await user.save() }
+					else { user.savedWorkouts.push(event._id); await user.save() }
+					return res.json({status: 'success'})
+				} catch (error) {
+					console.log(error)
+					return res.status(400).json({ message: error })
 				}
 			}
 		})

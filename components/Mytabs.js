@@ -1,11 +1,11 @@
 import * as React from 'react';
-import { Text, View, Button, Animated, StyleSheet} from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Circuit2 from './Circuit2'
 import Feed from './feed'
 import Counter from './Counter'
+import ModalComponent from './ModalComponent'
+import MyWorkout from './MyWorkout';
 
 
 const Tab = createMaterialBottomTabNavigator();
@@ -33,7 +33,7 @@ function MyTabs() {
 
       <Tab.Screen
         name="Profile"
-        component={Counter}
+        component={MyWorkout}
         options={{
           tabBarLabel: 'My workouts',
           tabBarIcon: ({ color }) => (
@@ -45,7 +45,7 @@ function MyTabs() {
         name="Create"
         component={Circuit2}
         options={{
-          tabBarLabel: 'My Profile',
+          tabBarLabel: 'Create a workout',
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons name="plus-circle" color={color} size={23} />
           ),

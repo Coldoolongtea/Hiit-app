@@ -2,15 +2,15 @@ const mongoose = require('mongoose')
 
 
 const MovesSchema = new mongoose.Schema({  
-    
-    Mouvement_name: String,
-    Duration: Number,
-    Rest_Duration: Number,
+  Mouvement_name: String,
+  Duration: Number,
+  Rest_Duration: Number,
 	index:Number });
 
 const SessionSchema = new mongoose.Schema({
-	Workout_name: String,
-	Number_of_moves: Number,
+	title: String,
+	nbrMoves: Number,
+	description: String,
 	mouvements : [MovesSchema],
 	user: {
 		type: mongoose.Schema.Types.ObjectId,
