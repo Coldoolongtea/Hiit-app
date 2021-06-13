@@ -9,7 +9,7 @@ const bgImage = require('../assets/background.jpg');
 
 
 const MyWorkout = ({ navigation }) => {
-  const thumbnail_url = 'https://i.ibb.co/ScQPjfQ/pexels-anush-gorak-1229356.jpg'
+  const thumbnail_url = 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80'
   const [user, user_id] = isLoggedIn({navigation})
   const [events, setEvents] = useState([])
 

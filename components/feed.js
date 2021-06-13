@@ -12,7 +12,7 @@ const bgImage = require('../assets/background.jpg');
 
 
 const Feed = ({ navigation }) => {
-  const thumbnail_url = 'https://i.ibb.co/ScQPjfQ/pexels-anush-gorak-1229356.jpg'
+  const thumbnail_url = 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80'
   const [user, user_id] = isLoggedIn({navigation})
   const [modalIsVisible, setModalIsVisible] = useState(false)
   const [events, setEvents] = useState([])
@@ -207,8 +207,6 @@ const styles = StyleSheet.create({
   },
   startIconContainer: {
     position: 'absolute',
-    height: 22,
-    width: 40,
     zIndex: 10,
     right: 5,
     top: 10
