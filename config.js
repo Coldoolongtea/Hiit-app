@@ -1,0 +1,1 @@
+global.backendIp = '192.168.1.51' // votre adresse IP
