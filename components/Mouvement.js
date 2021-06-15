@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { View, Text, TouchableOpacity, TextInput, StyleSheet,Form,Label, } from 'react-native'
 
+
+//Ce composant comporte les champs qui servent à la création d'un mouvement
 class Mouvement extends Component {
    state = {
       Mouvement_name: '',
@@ -10,7 +12,7 @@ class Mouvement extends Component {
    }
 
    
-
+   //Fonctions qui permettent de remplir le state
    handleMouvement_name = (text) => {
       this.setState({ Mouvement_name: text })
    }
@@ -20,13 +22,15 @@ class Mouvement extends Component {
     handleRest_Duration = (integer) => {
       this.setState({ Rest_Duration: integer })
    }
+   //Fonction permettant d'envoyer les données du form au composant mére lorsque le composant subit une mise à jour
    componentDidUpdate = () => {
       
       this.props.handleCallback(this.state,this.props.index);
    }
   
    render() {
-     
+      // On affiche les différents champs, this.propos.index donne l'index du mouvement à partir des props envoyées 
+      // vers le composant
       return (
         <View style = {styles.container}>
          <Text style ={styles.Mouvement}> Mouvement {this.props.index + 1} </Text>
@@ -49,7 +53,6 @@ class Mouvement extends Component {
               <TextInput type="text" style = {styles.input_number}
                 underlineColorAndroid = "transparent"
                 placeholder = "duration"
-               /* placeholderTextColor = "#9a73ef"*/
                 autoCapitalize = "none"
                 onChangeText = {this.handleDuration}/>
             </View>
@@ -59,7 +62,6 @@ class Mouvement extends Component {
               <TextInput type="text" style = {styles.input_number}
                 underlineColorAndroid = "transparent"
                 placeholder = "duration"
-               /* placeholderTextColor = "#9a73ef"*/
                 autoCapitalize = "none"
                 onChangeText = {this.handleRest_Duration}/>
             </View>

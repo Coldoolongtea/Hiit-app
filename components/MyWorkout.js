@@ -6,10 +6,11 @@ import isLoggedIn from '../hooks/isLoggedIn'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 const bgImage = require('../assets/background.jpg');
 
-
+//La logique de ce composant est très similaire à celle du composant feed à part qu'il n'y a pas de bouton pour les favoris
+//Et que les séances récupérés sont les favoris de l'utilisateur (dont celles qu'il a crée)
 
 const MyWorkout = ({ navigation }) => {
-  const thumbnail_url = 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80'
+  const thumbnail_url = 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8d29ya291dHxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=60'
   const [user, user_id] = isLoggedIn({navigation})
   const [events, setEvents] = useState([])
 
@@ -19,7 +20,7 @@ const MyWorkout = ({ navigation }) => {
   }, [user])
   
   const fetchDashboard = async () => {
-    const rawData = await fetch('http://192.168.1.44:8080/api/user/events', {
+    const rawData = await fetch(`http://${global.backendIp}:8080/api/user/events`, {
       headers: {
         'user': user,
       }
@@ -64,16 +65,14 @@ const MyWorkout = ({ navigation }) => {
         keyExtractor={event => event._id}
         renderItem={({item}) => {
           
-          // console.log('🚀 ---------------------------------------------------------')
-          // console.log('🚀 ~ file: Dashboard.js ~ line 32 ~ DashBoard ~ item', item)
-          // console.log('🚀 ---------------------------------------------------------')
+         
           return(
             <View style={styles.listItem}>
             <Image
               source={{uri: item.thumbnail_url || thumbnail_url}}
               style={styles.thumbnail}
             />
-            <Text style={styles.workoutTitle}> <Text style={styles.boldText}>Title:</Text> {item.title}</Text>
+            <Text style={styles.workoutTitle}> <Text style={styles.boldText}></Text> {item.title}</Text>
             <Text style={styles.equipment}> Number of moves: {item.nbrMoves}</Text>
             <Text style={styles.description}> Desciption: {item.description}</Text>
             <Text style={styles.duration}> Duration: {getWholeDuration(item) + ' minutes'}</Text>
@@ -88,14 +87,15 @@ const MyWorkout = ({ navigation }) => {
       </FlatList>    
       </ImageBackground>
 
-      <ActionButton buttonColor="#fff" offsetX={0} offsetY={0}>
+      <ActionButton buttonColor="#5330BC" offsetX={0} offsetY={0}>
         <ActionButton.Item title ='Logout' onPress={async () => await logoutHandler()} >
-          <Ionicons name="ios-add" style={styles.actionbutton}/>
+          <Ionicons name="log-out" style={styles.actionbutton}/>
         </ActionButton.Item>
         <ActionButton.Item title ='Refresh' onPress={() => {fetchDashboard()}} >
-          <Ionicons name="ios-add" style={styles.actionbutton}/>
+          <Ionicons name="refresh-circle" style={styles.actionbutton}/>
         </ActionButton.Item>
       </ActionButton>
+
 
     </View>
   </SafeAreaView>
@@ -104,6 +104,7 @@ const MyWorkout = ({ navigation }) => {
 }
 
 const styles = StyleSheet.create({
+  
   container: {
     flex: 1,
   },
@@ -122,10 +123,12 @@ const styles = StyleSheet.create({
     marginTop: 30
   },
   listItem: {
+    borderRadius:10,
     padding: 8,
-    backgroundColor: "#FFFF",
+    backgroundColor: "#01182B",
     marginVertical: 8,
     opacity: 0.9
+    
   },
   thumbnail: {
     width: 'auto',
@@ -133,15 +136,15 @@ const styles = StyleSheet.create({
     marginBottom: 8
   },
   workoutTitle: {
-    fontSize: 20,
+    fontSize: 25,
+    textTransform: 'uppercase',
     marginBottom: 8,
-    fontWeight: "bold",
-    color: "#444",
-    marginBottom: 15,
+    color: "white",
+    marginLeft:-8,
   },
   equipment: {
     fontSize: 16,
-    color: "#444",
+    color: "#6B79A1",
   },
   type: {
     fontSize: 16,
@@ -151,11 +154,11 @@ const styles = StyleSheet.create({
   },
   description: {
     fontSize: 16,
-    color: "#444",
+    color: "#6B79A1",
   },
   duration: {
     fontSize: 16,
-    color: '#999',
+    color: '#475A91',
     marginTop: 5,
     fontWeight: 'bold'
   },
@@ -166,12 +169,17 @@ const styles = StyleSheet.create({
   },
   primaryBtn: {
     height: 42,
-    backgroundColor: '#007bff',
+    backgroundColor: '#5330BC',
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 4,
     marginTop: 20
-  }
+  },
+  actionbutton: {
+    fontSize: 20,
+    height: 22,
+    color: 'white'
+  },
 })
 
 

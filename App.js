@@ -1,6 +1,6 @@
-import { StatusBar } from 'expo-status-bar';
+import './config.js';
 import React from 'react';
-import { StyleSheet, Text, View, LogBox} from 'react-native';
+import { StyleSheet, LogBox} from 'react-native';
 
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -16,6 +16,7 @@ LogBox.ignoreAllLogs()
 export default function App() {
   const Stack = createStackNavigator()
   return (
+    //On définit ici notre systeme de navigation
     <NavigationContainer>
       <Stack.Navigator screenOptions={{
         headerShown: false

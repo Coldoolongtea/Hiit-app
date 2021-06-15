@@ -4,7 +4,10 @@ import Mouvement from './Mouvement'
 import ActionButton from 'react-native-action-button'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+//Ceci est le code pour le form de création d'un cours
+
 class Circuit2 extends Component {
+   //On définit le state
    state = {
       Workout_name: '',
       Number_of_moves: '',
@@ -13,13 +16,16 @@ class Circuit2 extends Component {
    }
  mouvements = [];
 
+ // cette fonction définit l'utilisateur connecté comme étant l'utilisateur dans le state dés que le
+ //composant est monté
    async componentDidMount() {
       const user = await AsyncStorage.getItem('user')
       const user_id = await AsyncStorage.getItem('user_id')
       console.log("CIRCUIT2: \t",user, user_id)
       this.setState({ user: user })
    }
-
+   //Les fonctions suivants seront appellés pour mettre à jour le state
+   //Lorsque l'utilisateur entre des données dans les champs
    handleWorkout_name = (text) => {
       this.setState({ Workout_name: text })
       
@@ -31,7 +37,7 @@ class Circuit2 extends Component {
    handleDescription = (text) => {
       this.setState({ description: text })
    }
-
+//Cette fonction est déclénché lorsque l'utilisateur valide le form elle va envoyer les données vers al base de données
    submit = async () => {
       // console.log('Workout_name: ' + this.state.Workout_name + ' a été crée avec succès')
       const Workout_name = this.state.Workout_name
@@ -39,7 +45,7 @@ class Circuit2 extends Component {
       const description = this.state.description
       
       try {
-         const response = await fetch('http://192.168.1.44:8080/api/event', {
+         const response = await fetch(`http://${global.backendIp}:8080/api/event`, {
              method: "POST",
              body: JSON.stringify({ title: Workout_name, nbrMoves: Number_of_moves, description: description, mouvements : this.mouvements }),
              headers: {'Content-Type': 'application/json', 'user': this.state.user}
@@ -63,7 +69,8 @@ class Circuit2 extends Component {
  }
 
    
-
+//La fonction suivante permet de récupérer les données des mouvements entrées par l'utilisateur 
+//A partir du composant fils Mpuvement
    handleCallback = (childData,index) =>{
       this.mouvements[index]=childData
   }
@@ -73,6 +80,8 @@ class Circuit2 extends Component {
       const {data} = this.state;
        // on va créer un tableau de mouvements
      var Mouvements = [];
+     //On affiche Le composant Mouvement avec un nombre de fois coresppondant au 
+     //nombre de mouvements entrées par l'utilisateur
      	for(let i = 0; i < this.state.Number_of_moves; i++){
 
 		Mouvements.push(
@@ -82,6 +91,7 @@ class Circuit2 extends Component {
 		)}
 	
       return (
+         //On définit ici les différents champs pour le formulaire
          <ScrollView style = {styles.container} >
         <View nativeID ="root">
           <Text style ={styles.title}> New HIIT Circuit </Text>
@@ -112,23 +122,9 @@ class Circuit2 extends Component {
                   autoCapitalize = "none"
                   onChangeText = {this.handleNumber_of_moves}/>
             </View>
-
-          
-         
-          {/* {Mouvements.map(function(m, i) {
-      return <Text key={'Mouvement-' + i} style={styles.mouv_nbr} >
-          {m}{i+1}
-          
-          
-          </Text>
-})} */}
-
       <View>
          {Mouvements}
       </View>
-
-
-            
            <View style={{height: 100}}>
                <Button title="valider" style = {styles.submitButton} onPress ={this.submit} />
             </View>            
@@ -143,10 +139,10 @@ export default Circuit2
 const styles = StyleSheet.create({
 
   title:{
-    fontSize:22,
+    fontSize:30,
     marginBottom:10,
     marginTop:45,
-    color: '#193F92',
+    color: '#7a42f4',
     
   },
   

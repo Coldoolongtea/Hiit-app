@@ -12,6 +12,7 @@ const Tab = createMaterialBottomTabNavigator();
 
 
 function MyTabs() {
+  //Nous définisons ici les propriétés nécessaires au fonctionement de la bare de navigation
   return (
     <Tab.Navigator
       initialRouteName="Feed"
