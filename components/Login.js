@@ -18,7 +18,7 @@ const Login = ({navigation}) => {
     const submitHandler = async () => {
         
         try {
-            const response = await fetch('http://192.168.1.51:8080/api/login', {
+            const response = await fetch(`http://${global.backendIp}/api/login`, {
                 method: "POST",
                 body: JSON.stringify({email, password}),
                 headers: {'Content-Type': 'application/json'}

@@ -61,7 +61,7 @@ const Feed = ({ navigation }) => {
   }
 
   const toggleFavorite = async (item) => {
-    await fetch('http://192.168.1.51:8080/api/event/toggleFavorite', {
+    await fetch(`http://${global.backendIp}:8080/api/event/toggleFavorite`, {
       method: 'POST',
       headers: {
         'user': user,

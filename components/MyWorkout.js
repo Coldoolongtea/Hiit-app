@@ -19,7 +19,7 @@ const MyWorkout = ({ navigation }) => {
   }, [user])
   
   const fetchDashboard = async () => {
-    const rawData = await fetch('http://192.168.1.51:8080/api/user/events', {
+    const rawData = await fetch(`http://${global.backendIp}:8080/api/user/events`, {
       headers: {
         'user': user,
       }

@@ -1,9 +1,11 @@
 import React, { Component, useEffect}  from 'react'
-import { Text, View, Button, Animated, StyleSheet} from 'react-native';
+import { Text, View, Button, Animated, StyleSheet, TouchableOpacity} from 'react-native';
 import Constants from 'expo-constants';
 import { CountdownCircleTimer } from 'react-native-countdown-circle-timer';
+import {FontAwesome5, MaterialCommunityIcons, Ionicons} from '@expo/vector-icons'
 
-function Counter({route}){
+
+function Counter({route, navigation}){
   const obj = route.params
   const [isPlaying, setIsPlaying] = React.useState(true)
   const [currentmove, setCurrentMove] = React.useState(obj.mouvements[0])
@@ -22,7 +24,10 @@ function updatemove(){
 
   return (    
     <View style={styles.container}>
-    <Text style ={styles.title}> {obj.title} </Text>
+      <TouchableOpacity style={{}} onPress={() => {navigation.goBack()}}>
+        <Ionicons name={'arrow-back-outline'} size={30} style={styles.goBack} />
+      </TouchableOpacity>
+      <Text style ={styles.title}> {obj.title} </Text>
     {currentmove?
     <View>
       <CountdownCircleTimer
@@ -83,11 +88,8 @@ function updatemove(){
   },
   move:{
     fontSize:25,
-    
     marginTop:10,
     color: 	'#FFFFFF',
-    
-    
   },
 
   container: {
@@ -101,6 +103,9 @@ function updatemove(){
   remainingTime: {
     fontSize: 46,
   },
+  goBack: {
+    color: 'white'
+  }
 });
 
 export default Counter
