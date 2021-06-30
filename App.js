@@ -1,6 +1,6 @@
-import { StatusBar } from 'expo-status-bar';
+import './config.js';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, LogBox} from 'react-native';
 
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -8,6 +8,10 @@ import {createStackNavigator} from '@react-navigation/stack';
 import Login from './components/Login';
 import SignUp from './components/SignUp';
 import MyTabs from './components/Mytabs';
+import Counter from './components/Counter';
+
+LogBox.ignoreAllLogs(['Warning: ... '])
+LogBox.ignoreAllLogs()
 
 export default function App() {
   const Stack = createStackNavigator()
@@ -19,6 +23,7 @@ export default function App() {
         <Stack.Screen name="Login" component={Login}/>
         <Stack.Screen name="SignUp" component={SignUp}/>
         <Stack.Screen name="Mytabs" component={MyTabs}/>
+        <Stack.Screen name="Counter" component={Counter}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -1,41 +1,41 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import {View, Text, TouchableOpacity, StyleSheet, ImageBackground, TextInput} from 'react-native'
-
-const bgImage = require('../assets/background.jpg')
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import isLoggedIn from '../hooks/isLoggedIn';
+const bgImage = require('../assets/background.jpg');
 
 const Login = ({navigation}) => {
 
+    const [user,user_id] = isLoggedIn()
     const [email, setEmail] = useState(null)
     const [password, setPassword] = useState(null)
 
-
+    useEffect(() => {
+        console.log("LOGIN VUE: \t", user, user_id)
+        if(user !== null && user_id !== null) navigation.navigate('Mytabs')
+    })
+    
     const submitHandler = async () => {
         
         try {
-            const response = await fetch('http://192.168.0.4:8080/api/login', {
+            const response = await fetch(`http://${global.backendIp}/api/login`, {
                 method: "POST",
                 body: JSON.stringify({email, password}),
                 headers: {'Content-Type': 'application/json'}
             })
 
-            const responseJson = await response.json()
+            const {user, user_id} = await response.json()
 
-            if(responseJson.user && responseJson.user_id){
-
-                navigation.reset({
-                    index: 0,
-                    routes: [{name: 'Mytabs'}],
-                  });
+            if(user && user_id){
+                await AsyncStorage.setItem('user', user);
+                await AsyncStorage.setItem('user_id', user_id);
+                navigation.navigate('Mytabs')
                
             }
             else{
                 alert("Email or password doesn't match")
             }
 
-            console.log('🚀 ----------------------------------------------------------------------------')
-            console.log('🚀 ~ submitHandler ~ responseJson', responseJson)
-            console.log('🚀 ----------------------------------------------------------------------------')
-      
           } catch (error) {
             console.log('🚀 --------------------------------------------------------------')
             console.log('🚀 ~ submitHandler ~ error', error)

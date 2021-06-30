@@ -1,16 +1,26 @@
 import React, { Component } from 'react'
 import { View, Text, TouchableOpacity, TextInput, StyleSheet,Form,Label, Icon,Button,ScrollView} from 'react-native'
 import Mouvement from './Mouvement'
+import ActionButton from 'react-native-action-button'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 class Circuit2 extends Component {
    state = {
       Workout_name: '',
       Number_of_moves: '',
-     
+      description: '',
+      user: ''
    }
  mouvements = [];
- handleWorkout_name = (text) => {
-   console.log(text)
+
+   async componentDidMount() {
+      const user = await AsyncStorage.getItem('user')
+      const user_id = await AsyncStorage.getItem('user_id')
+      console.log("CIRCUIT2: \t",user, user_id)
+      this.setState({ user: user })
+   }
+
+   handleWorkout_name = (text) => {
       this.setState({ Workout_name: text })
       
    }
@@ -18,16 +28,21 @@ class Circuit2 extends Component {
       this.setState({ Number_of_moves: m })
    }
     
+   handleDescription = (text) => {
+      this.setState({ description: text })
+   }
+
    submit = async () => {
       // console.log('Workout_name: ' + this.state.Workout_name + ' a été crée avec succès')
       const Workout_name = this.state.Workout_name
       const Number_of_moves = this.state.Number_of_moves
+      const description = this.state.description
       
       try {
-         const response = await fetch('http://192.168.0.4:8080/api/event', {
+         const response = await fetch(`http://${global.backendIp}:8080/api/event`, {
              method: "POST",
-             body: JSON.stringify({ Workout_name, Number_of_moves, mouvements : this.mouvements}),
-             headers: {'Content-Type': 'application/json'}
+             body: JSON.stringify({ title: Workout_name, nbrMoves: Number_of_moves, description: description, mouvements : this.mouvements }),
+             headers: {'Content-Type': 'application/json', 'user': this.state.user}
          })
 
          const responseJson = await response.json()
@@ -50,18 +65,9 @@ class Circuit2 extends Component {
    
 
    handleCallback = (childData,index) =>{
-     
-     
       this.mouvements[index]=childData
-     console.log(this.mouvements)
-     
-    
   }
   
-
- 
-
-
      render() {
 
       const {data} = this.state;
@@ -89,6 +95,15 @@ class Circuit2 extends Component {
                 onChangeText = {this.handleWorkout_name}/>
             </View>
 
+          <View style= {styles.Workout_name}>
+            <Text style={styles.title2}>Description: </Text>
+              <TextInput type="Text" style = {styles.input_name}
+                underlineColorAndroid = "transparent"
+                placeholder = "name"
+                autoCapitalize = "none"
+                onChangeText = {this.handleDescription}/>
+            </View>
+
             <View style= {styles.Number_of_moves}>
               <Text style={styles.title2}>Number of moves: </Text>
                 <TextInput type="Text" style = {styles.input_number}
@@ -108,13 +123,15 @@ class Circuit2 extends Component {
           </Text>
 })} */}
 
+      <View>
          {Mouvements}
+      </View>
 
 
             
-    
-            <Button title="valider" style = {styles.submitButton} onPress ={this.submit} />
-            
+           <View style={{height: 100}}>
+               <Button title="valider" style = {styles.submitButton} onPress ={this.submit} />
+            </View>            
            
 
          </View>

@@ -1,32 +1,37 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import {View, Text, TouchableOpacity, StyleSheet, TextInput, ImageBackground} from 'react-native'
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import isLoggedIn from '../hooks/isLoggedIn';
 const bgImage = require('../assets/background.jpg')
 
 const SignUp = ({navigation}) => {
+    const [user,user_id] = isLoggedIn()
     const [firstName, setName] = useState(null)
     const [lastName, setLastName] = useState(null)
     const [email, setEmail] = useState(null)
     const [password, setPassword] = useState(null)
 
+    useEffect(() => {
+        if(user !== null && user_id !== null) navigation.navigate('Mytabs')
+    })
+
     const submitHandler = async () => {
-        console.log(firstName, lastName, email, password)
 
         try {
-            const response = await fetch('http://192.168.0.4:8080/api/user/register', {
+            const response = await fetch(`http://${global.backendIp}:8080/api/user/register`, {
                 method: "POST",
                 body: JSON.stringify({firstName, lastName, email, password}),
                 headers: {'Content-Type': 'application/json'}
             })
 
-            const responseJson = await response.json()
-
             
-
-
-            console.log('🚀 ----------------------------------------------------------------------------')
-            console.log('🚀 ~ file: Register.js ~ line 24 ~ submitHandler ~ responseJson', responseJson)
-            console.log('🚀 ----------------------------------------------------------------------------')
+            const {user, user_id} = await response.json()
+            if(user && user_id){
+                await AsyncStorage.setItem('user', user);
+                await AsyncStorage.setItem('user_id', user_id);
+                navigation.navigate('Mytabs')
+               
+            }
       
           } catch (error) {
             console.log('🚀 --------------------------------------------------------------')
